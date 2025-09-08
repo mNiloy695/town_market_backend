@@ -59,7 +59,6 @@ class ShopModel(models.Model):
              self.owner.user_type = "shop_owner"
              self.owner.save()
         return self
-    
 
 class ItemModel(models.Model):
     name=models.CharField(max_length=100)
@@ -74,7 +73,7 @@ class ItemModel(models.Model):
     slug=models.SlugField(max_length=300,unique=True,blank=True,null=True)
 
     class Meta:
-        ordering=['-created_at']
+        ordering=['created_at']
     def save(self, *args, **kwargs):
         if not self.slug:
            self.slug = f"{slugify(self.name)}-{uuid.uuid4().hex[:6]}"
