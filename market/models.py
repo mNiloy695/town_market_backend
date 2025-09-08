@@ -16,6 +16,14 @@ UPAZILA_CHOIES=[
     ('Sonagazi','Sonagazi'),
     ('Fulgazi','Fulgazi'),
 ]
+
+ORDER_STATUS=[
+    ('pending','pending'),
+    ("cancel","cancel"),
+    ('processing','processing'),
+    ('completed','completed'),
+    
+]
 class MarketModel(models.Model):
     name=models.CharField(max_length=100,unique=True)
     location=models.CharField(max_length=200)
@@ -80,3 +88,19 @@ class ItemModel(models.Model):
         super().save(*args, **kwargs)
     def __str__(self):
         return self.name
+    
+
+class PurchaseModel(models.Model):
+    item=models.ForeignKey(ItemModel,on_delete=models.SET_NULL,blank=True,null=True)
+    orderer=models.ForeignKey(User,on_delete=models.SET_NULL,blank=True,null=True)
+    quantity=models.IntegerField()
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    status=models.CharField(max_length=100,choices=ORDER_STATUS,default='pending')
+    def save(self,*args,**kwargs):
+        if self.item:
+              self.total_price=self.item.price*self.quantity
+        super().save(*args, **kwargs)
+    def __str__(self):
+        return self.item.name

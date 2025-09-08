@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import MarketModel,ShopModel,ItemModel
-from .serializers import MarketSerializer,ShopSerializer,ItemSerializer
+from .models import MarketModel,ShopModel,ItemModel,PurchaseModel
+from .serializers import MarketSerializer,ShopSerializer,ItemSerializer,PurchaseModelSerialzier
 from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.filters import SearchFilter
@@ -91,3 +91,50 @@ class ItemModelViewSet(viewsets.ModelViewSet):
             return [CustomPermissionForItemModel()]
         
         return [permissions.IsAdminUser()]
+
+#custom permission for the user
+
+class CustomPermissionForPurchase(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return  request.user.is_authenticated
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_staff:
+            return True
+        
+        if obj.orderer==request.user:
+            if obj.status=="pending" and request.method in ["PATCH"]:
+                    return request.data.get("status","").lower()=="cancel"
+                
+            if request.method in permissions.SAFE_METHODS:
+                return True
+
+        
+        #shop woner can update the all purchase model
+        if getattr(request.user,'user_type',None)  == "shop_owner":
+            if obj.item.shop.owner==request.user:
+                if request.data.get("status",None):
+                    return True
+                else:
+                    return False
+            return False
+
+        return False
+
+class PurchaseModelViewSet(viewsets.ModelViewSet):
+    queryset=PurchaseModel.objects.all().select_related('item','orderer','item__shop')
+    serializer_class=PurchaseModelSerialzier
+    permission_classes = [CustomPermissionForPurchase]
+
+    def get_queryset(self):
+        
+        user=self.request.user 
+
+        if user.is_staff:
+            return  PurchaseModel.objects.all()
+        if getattr(user,"user_type",None) =="shop_owner":
+            return PurchaseModel.objects.filter(item__shop__owner=user)
+        
+        return PurchaseModel.objects.filter(orderer=user)
+
+
+    
