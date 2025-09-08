@@ -53,6 +53,13 @@ class ShopModel(models.Model):
 
     def __str__(self):
         return self.name
+    def save(self,*args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.owner.user_type != "shop_owner":
+             self.owner.user_type = "shop_owner"
+             self.owner.save()
+        return self
+    
 
 class ItemModel(models.Model):
     name=models.CharField(max_length=100)
