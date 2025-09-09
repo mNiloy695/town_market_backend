@@ -7,9 +7,10 @@ TYPE_ROLES=[
     ('shop_owner','shop_owner'),
 ]
 class CustomUser(AbstractUser):
-    phone=models.CharField(max_length=100,null=True,blank=True,unique=True)
+    phone=models.CharField(max_length=11,null=True,blank=True,unique=True)
     profile_photo=models.ImageField(upload_to='account/profile',blank=True,null=True)
     user_type=models.CharField(max_length=30,choices=TYPE_ROLES,default='customer')
+    
     
 
 

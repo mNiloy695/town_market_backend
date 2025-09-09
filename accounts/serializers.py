@@ -9,8 +9,8 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
     confirm_password=serializers.CharField(write_only=True,required=False, allow_blank=True)
     class Meta:
         model=User
-        fields=['username','email','password','phone','user_type','first_name','last_name','confirm_password']
-    
+        fields=['id','profile_photo','username','email','password','phone','user_type','first_name','last_name','confirm_password','is_active']
+        read_only_fields=['is_active','user_type']
    
     def validate(self, attrs):
         password=attrs.get('password',None)

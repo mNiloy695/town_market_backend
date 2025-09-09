@@ -5,6 +5,8 @@ from rest_framework import viewsets
 from rest_framework import permissions
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
+
+from ..accounts.email import send_email
 class IsOwnerPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
@@ -107,8 +109,7 @@ class CustomPermissionForPurchase(permissions.BasePermission):
                 
             if request.method in permissions.SAFE_METHODS:
                 return True
-
-        
+            
         #shop woner can update the all purchase model
         if getattr(request.user,'user_type',None)  == "shop_owner":
             if obj.item.shop.owner==request.user:
@@ -135,6 +136,3 @@ class PurchaseModelViewSet(viewsets.ModelViewSet):
             return PurchaseModel.objects.filter(item__shop__owner=user)
         
         return PurchaseModel.objects.filter(orderer=user)
-
-
-    
