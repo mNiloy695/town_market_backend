@@ -6,7 +6,8 @@ from rest_framework import permissions
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
-from ..accounts.email import send_email
+   
+# Create your views here.
 class IsOwnerPermission(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
@@ -37,8 +38,7 @@ class CustomPermissionForItemModel(permissions.BasePermission):
             return True
       
         return obj.shop.owner==request.user
-    
-# Create your views here.
+
 
 
 class MarketModelViewSet(viewsets.ModelViewSet):

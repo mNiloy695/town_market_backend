@@ -1,0 +1,16 @@
+ {
+  "version": 2,
+  "builds": [
+    {
+      "src": "Town/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "Town/wsgi.py"
+    }
+  ]
+}
+
