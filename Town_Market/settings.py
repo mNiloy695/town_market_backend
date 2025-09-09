@@ -20,7 +20,7 @@ SECRET_KEY=env("SECRET_KEY")
 DEBUG =True
 ALLOWED_HOSTS=['127.0.0.1', 'localhost', '.vercel.app']
 
-STATIC_ROOT=BASE_DIR/ 'staticfiles'
+
 
 
 
@@ -152,6 +152,7 @@ EMAIL_HOST_PASSWORD =env("EMAIL_HOST_PASSWORD")
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT=BASE_DIR/'staticfiles'
 # Base url to serve media files
 MEDIA_URL = '/media/'
 # Path where media is stored'
