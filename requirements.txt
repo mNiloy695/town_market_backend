@@ -10,7 +10,6 @@ gprof2dot==2025.4.14
 Markdown==3.9
 pillow==11.3.0
 pip_system_certs==5.2
-psycopg2==2.9.10
 psycopg2-binary==2.9.10
 pycodestyle==2.14.0
 PyJWT==2.10.1
