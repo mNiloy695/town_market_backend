@@ -73,7 +73,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Town_Market.wsgi.app'
-
+ROOT_URLCONF = 'Town_Market.urls'
 #add rest framework and jwt authentication
 REST_FRAMEWORK = {
    
