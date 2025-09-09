@@ -1,16 +1,15 @@
- {
+{
   "version": 2,
   "builds": [
     {
-      "src": "Town/wsgi.py",
+      "src": "Town_Market/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "Town/wsgi.py"
+      "dest": "Town_Market/wsgi.py"
     }
   ]
 }
-
