@@ -37,7 +37,7 @@ class CustomUserRegistrationViewSet(viewsets.ModelViewSet):
         token=default_token_generator.make_token(user)
         uid=urlsafe_base64_encode(force_bytes(user.pk))
         subject="Activate You Account On Town Market Feni"
-        activation_link=f'http://127.0.0.1:8000/account/activate/{uid}/{token}/'
+        activation_link=f'https://town-market-backend.vercel.app/account/activate/{uid}/{token}/'
         message=f"{user.username} Active your account !Please visite the link for activate you account {activation_link}"
         receiver_email=user.email
         send_email(subject,message,receiver_email)
@@ -87,6 +87,11 @@ class LoginView(APIView):
                 refresh=RefreshToken.for_user(user)
                 return Response({
                     "message":"Login Successfully",
+                   "user": { 
+                       "id": user.pk, 
+                       "username": user.username, "email": user.email,
+                       "user_type": getattr(user, "user_type", None)
+                    },
                     'access':str(refresh.access_token),
                     'refresh':str(refresh)
                 })
