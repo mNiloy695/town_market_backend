@@ -52,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     
 ]
 
@@ -99,7 +100,7 @@ DATABASES = {
         'NAME': 'postgres', 
         'USER':'postgres.iosawaqygkrxctxosxpg',  
         'PASSWORD':env("PASSWORD_DATABASE"),
-        'HOST': 'aws-1-ap-southeast-1.pooler.supabase.com',
+        'HOST':'aws-1-ap-southeast-1.pooler.supabase.com',
         'PORT':'6543',
     }
 }
