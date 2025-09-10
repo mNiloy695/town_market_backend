@@ -25,6 +25,7 @@ ALLOWED_HOSTS=['127.0.0.1', 'localhost', '.vercel.app']
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     'http://127.0.0.1:5500',
+    
 ]
 
 
@@ -37,10 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    "whitenoise.runserver_nostatic",
     'django.contrib.staticfiles',
     'rest_framework',
     'market',
-    'silk',
+    # 'silk',
     'django_filters',
     'accounts',
     'rest_framework_simplejwt',
@@ -50,7 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'silk.middleware.SilkyMiddleware',
+    # 'silk.middleware.SilkyMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -158,13 +160,18 @@ EMAIL_HOST_PASSWORD =env("EMAIL_HOST_PASSWORD")
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT=BASE_DIR/'staticfiles'
 # Base url to serve media files
 MEDIA_URL = '/media/'
 # Path where media is stored'
 MEDIA_ROOT = BASE_DIR / 'media'
-
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
