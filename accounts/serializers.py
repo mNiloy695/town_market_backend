@@ -11,7 +11,9 @@ class CustomUserRegistrationSerializer(serializers.ModelSerializer):
         model=User
         fields=['id','profile_photo','username','email','password','phone','user_type','first_name','last_name','confirm_password','is_active']
         read_only_fields=['is_active','user_type']
-   
+        extra_kwargs = {
+            "phone": {"required": True, "allow_blank": False}
+          }
     def validate(self, attrs):
         password=attrs.get('password',None)
         confirm_password=attrs.pop('confirm_password',None)
